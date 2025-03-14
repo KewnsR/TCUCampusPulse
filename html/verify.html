@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - TCU Campus Pulse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 class="text-center text-2xl font-bold text-purple-600">Verify Your Email</h2>
+        <p class="text-center text-gray-600">Enter the verification code sent to your email.</p>
+
+        <form action="php/verify.php" method="POST" class="mt-4">
+            <input type="hidden" name="email" value=" <?php echo $_GET['email']; ?>">
+            <input type="text" name="verification_code" placeholder="Enter code" required class="w-full border px-4 py-2 rounded-lg mt-2">
+            <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg mt-4">Verify</button>
+        </form>
+    </div>
+</body>
+</html>
