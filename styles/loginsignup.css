@@ -1,0 +1,160 @@
+/* General Page Styling */
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* Container Styling */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+
+/* Title and Subtitle */
+.title {
+    font-size: 24px;
+    color: #6a0dad;
+    font-weight: bold;
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* Tabs for Login/Register */
+.tabs {
+    display: flex;
+    justify-content: center;
+    background: #eee;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+.tabs button.active {
+    background: white;
+    font-weight: bold;
+    border-radius: 5px;
+    color: #6a0dad;
+}
+
+/* Form Containers */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Input Fields */
+input[type="text"], 
+input[type="email"], 
+input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Role Selection */
+.role-select {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 10px 0;
+}
+
+.role-select button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 8px;
+    border-radius: 5px;
+    background: #eee;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+.role-select button.selected {
+    background: #6a0dad;
+    color: white;
+}
+
+/* Submit Button */
+.submit {
+    width: 90%;
+    background: #6a0dad;
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.submit:hover {
+    background: #580a9a;
+}
+
+/* Switch Between Login/Register */
+.switch {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.switch a {
+    color: #6a0dad;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 450px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .tabs button {
+        font-size: 14px;
+    }
+
+    .submit {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    input[type="text"], 
+    input[type="email"], 
+    input[type="password"] {
+        font-size: 12px;
+    }
+}
