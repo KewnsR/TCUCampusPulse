@@ -34,3 +34,31 @@ document.getElementById('sortRecent').addEventListener('click', function() {
     this.classList.add('bg-gray-100', 'text-black', 'font-semibold');
     document.getElementById('sortPopular').classList.remove('bg-gray-100', 'text-black', 'font-semibold');
 });
+
+//NOTIFICATION
+document.addEventListener("DOMContentLoaded", function () {
+    fetchNotifications();
+});
+
+function fetchNotifications() {
+    fetch('notifications.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+            updateNotificationBadge(data.length);
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+}
+
+function updateNotificationBadge(count) {
+    const badge = document.getElementById("notification-badge");
+    if (count > 0) {
+        badge.innerText = count;
+        badge.style.display = "block";
+    } else {
+        badge.style.display = "none";
+    }
+}
