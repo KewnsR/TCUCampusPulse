@@ -30,22 +30,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($user && password_verify($password, $user['password'])) {
             if ($user['is_verified'] == 1) {
                 session_regenerate_id(true);
+                
+                // Fetch student number if the role is "Student"
+                $student_number = null;
+                if ($role === "Student") {
+                    $stmt = $conn->prepare("SELECT student_number FROM users WHERE id = ?");
+                    $stmt->bind_param("i", $user['id']);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $student_data = $result->fetch_assoc();
+                    $student_number = $student_data['student_number'] ?? null;
+                    $stmt->close();
+                }
+        
                 $_SESSION['user'] = [
                     'id' => $user['id'],
                     'username' => htmlspecialchars($user['username'], ENT_QUOTES, 'UTF-8'),
-                    'role' => htmlspecialchars($user['role'], ENT_QUOTES, 'UTF-8')
+                    'role' => htmlspecialchars($user['role'], ENT_QUOTES, 'UTF-8'),
+                    'student_number' => $student_number // ✅ FIXED: Add student number to session
                 ];
+                
                 header("Location: /TCUCampusPulse/php/index.php");
                 exit();
             } else {
                 echo "<script>alert('Your email is not verified. Please check your email.'); window.location='/TCUCampusPulse/php/login.php';</script>";
                 exit();
             }
-        } else {
-            echo "<script>alert('Invalid username, password, or role. Please try again.'); window.location='/TCUCampusPulse/php/login.php';</script>";
-            exit();
         }
-    } elseif ($action === "register") {
+        if ($action === "register") {
         // REGISTRATION PROCESS
         $full_name = trim($_POST['full_name']);
         $username = trim($_POST['username']);
@@ -95,6 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->close();
         $conn->close();
     }
+}
 }
 ?>
 

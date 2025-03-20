@@ -1,5 +1,38 @@
 <?php
 session_start();
+require_once 'config.php'; // Ensure database connection
+
+if (isset($_POST['confirmLogout'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
+
+// Default profile image
+$profileImage = "../images/defaultuserprofile.jpg"; 
+
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']['id']; // Get user ID from session
+
+    // Prepare the SQL query
+    $query = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
+    $query->bind_param("i", $userId);
+    $query->execute();
+    $query->bind_result($profileImageDb);
+    
+    // Fetch result properly
+    if ($query->fetch() && !empty($profileImageDb)) {
+        $uploadDir = '../uploads/'; // Define upload directory
+        $profileImagePath = $uploadDir . $profileImageDb;
+
+        // Check if the image file exists before using it
+        if (file_exists($profileImagePath)) {
+            $profileImage = $profileImagePath;
+        }
+    }
+
+    $query->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,48 +44,62 @@ session_start();
     <link rel="icon" type="image/png" href="../images/iconlogo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../styles/styles.css">
+    <script src="../js/index.js"></script>
 </head>
 <body class="bg-gray-100">
     <!-- Navbar -->
     <header class="bg-white shadow-md p-4 flex justify-between items-center">
         <div class="text-xl font-bold text-purple-600">⚡ TCU Campus Pulse</div>
-        
+
         <!-- Search Bar -->
         <input type="text" class="border px-4 py-2 rounded-md w-1/3" placeholder="Search posts, events, or users...">
 
         <!-- Conditional Buttons -->
-        <div>
+        <div class="relative flex items-center space-x-4">
             <?php if(isset($_SESSION['user'])): ?>
-                <button onclick="window.location.href='profile.php'" 
-                        class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400">
-                    Profile
-                </button>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                    Messages
-                </button>
-                <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-                    Events
-                </button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Messages</button>
+                <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Events</button>
                 <button class="relative bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400">
                     <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">3</span>
                     🔔
                 </button>
-                <button onclick="window.location.href='php/logout.php'" 
-                        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
-                    Logout
-                </button>
+                <!-- Profile Icon with Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleProfileDropdown()" class="focus:outline-none">
+                        <img src="<?php echo $profileImage; ?>" class="w-8 h-8 rounded-full">
+                    </button>
+                    <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md overflow-hidden">
+                        <a href="/TCUCampusPulse/php/userprofile.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="/TCUCampusPulse/php/settings.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="#" onclick="showLogoutModal()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
             <?php else: ?>
                 <button onclick="window.location.href='/TCUCampusPulse/php/login.php'"
                         class="bg-transparent border border-purple-600 text-purple-600 px-4 py-2 rounded-md hover:bg-purple-100">
                     Log in
                 </button>
                 <button onclick="window.location.href='/TCUCampusPulse/php/login.php?register=true'"
-        class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
-    Sign up
-</button>
+                        class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
+                    Sign up
+                </button>
             <?php endif; ?>
         </div>
     </header>
+
+    <!-- Logout Modal -->
+    <div id="logoutModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h2 class="text-lg font-semibold">Confirm Logout</h2>
+            <p class="text-gray-600 mt-2">Are you sure you want to log out?</p>
+            <form method="POST">
+                <div class="flex justify-end mt-4">
+                    <button type="button" onclick="hideLogoutModal()" class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400">Cancel</button>
+                    <button type="submit" name="confirmLogout" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2">Logout</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main class="flex p-6">
@@ -84,5 +131,7 @@ session_start();
             <button class="mt-4 w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">View All Events</button>
         </aside>
     </main>
+
+    <script src="../js/index.js"></script>
 </body>
 </html>
