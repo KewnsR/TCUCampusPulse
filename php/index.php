@@ -100,23 +100,36 @@ if (isset($_SESSION['user'])) {
             </form>
         </div>
     </div>
-
-    <!-- Main Content -->
+    
     <main class="flex p-6">
-        <section class="w-3/4 space-y-6">
-            <div class="flex bg-white shadow-lg rounded-lg overflow-hidden">
-                <img src="../images/graduation.jpg" class="w-48 h-32 object-cover">
-                <div class="p-4">
-                    <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">Announcements</span>
-                    <h2 class="text-lg font-semibold mt-2">Campus Library Extended Hours During Finals Week</h2>
-                    <p class="text-gray-600 text-sm mt-1">The campus library will be open 24/7 from Dec 10 to Dec 17...</p>
-                    <div class="flex justify-between items-center mt-3">
-                        <div class="text-green-600 font-semibold">👍 124 | 👎 2</div>
-                        <span class="text-gray-500 text-sm">💬 18</span>
-                    </div>
+    <!-- Left Section (Main Content) -->
+    <section class="w-3/4 space-y-6">
+        <!-- Sorting UI -->
+        <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
+            <div class="flex border border-gray-300 rounded-md overflow-hidden">
+                <button id="sortPopular" class="px-4 py-2 bg-gray-100 text-black font-semibold flex items-center">
+                    🔥 Popular
+                </button>
+                <button id="sortRecent" class="px-4 py-2 text-gray-500 flex items-center">
+                    ⏳ Recent
+                </button>
+            </div>
+        </div>
+
+        <!-- Post Card -->
+        <div class="flex bg-white shadow-lg rounded-lg overflow-hidden">
+            <img src="../images/graduation.jpg" class="w-48 h-32 object-cover">
+            <div class="p-4">
+                <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">Announcements</span>
+                <h2 class="text-lg font-semibold mt-2">Campus Library Extended Hours During Finals Week</h2>
+                <p class="text-gray-600 text-sm mt-1">The campus library will be open 24/7 from Dec 10 to Dec 17...</p>
+                <div class="flex justify-between items-center mt-3">
+                    <div class="text-green-600 font-semibold">👍 124 | 👎 2</div>
+                    <span class="text-gray-500 text-sm">💬 18</span>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
         <aside class="w-1/4 ml-6 bg-white shadow-lg p-4 rounded-lg">
             <h3 class="font-semibold text-lg">Categories</h3>

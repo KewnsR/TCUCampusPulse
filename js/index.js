@@ -23,3 +23,14 @@ function toggleProfileDropdown() {
         }
     });
 })();
+
+// Toggle button styles
+document.getElementById('sortPopular').addEventListener('click', function() {
+    this.classList.add('bg-gray-100', 'text-black', 'font-semibold');
+    document.getElementById('sortRecent').classList.remove('bg-gray-100', 'text-black', 'font-semibold');
+});
+
+document.getElementById('sortRecent').addEventListener('click', function() {
+    this.classList.add('bg-gray-100', 'text-black', 'font-semibold');
+    document.getElementById('sortPopular').classList.remove('bg-gray-100', 'text-black', 'font-semibold');
+});

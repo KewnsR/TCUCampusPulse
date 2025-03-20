@@ -20,13 +20,28 @@ $user_id = $user['id'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['profile_image'])) {
         $target_dir = "../uploads/";
+        // Ensure the upload directory exists
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
         $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
-        if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
-            $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
-            $stmt->bind_param("si", $target_file, $user_id);
-            $stmt->execute();
-            header("Location: settings.php");
-            exit();
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+
+        // Validate file type
+        if (in_array($imageFileType, $allowed_types)) {
+            if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
+                $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
+                $stmt->bind_param("si", $target_file, $user_id);
+                $stmt->execute();
+                header("Location: settings.php");
+                exit();
+            } else {
+                echo "<script>alert('Error uploading the file. Please try again.');</script>";
+            }
+        } else {
+            echo "<script>alert('Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.');</script>";
         }
     }
     if (isset($_POST['full_name']) && isset($_POST['username'])) {
