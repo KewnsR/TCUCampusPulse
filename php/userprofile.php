@@ -42,7 +42,6 @@ $user = $result->fetch_assoc();
             <p class="mt-2 text-gray-700"> <?= $user['bio'] ?> </p>
             <p class="text-gray-500 mt-2"><i class="fas fa-graduation-cap"></i> <?= $user['department'] ?> &bull; <?= $user['year'] ?></p>
         </div>
-        
     </div>
 </body>
 </html>

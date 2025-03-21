@@ -44,6 +44,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<script>alert('Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.');</script>";
         }
     }
+
+    // Handle delete profile picture
+    if (isset($_POST['delete_profile_picture'])) {
+        $defaultProfileImage = "../images/defaultuserprofile.jpg";
+        $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
+        $stmt->bind_param("si", $defaultProfileImage, $user_id);
+        if ($stmt->execute()) {
+            echo "<script>alert('Profile picture has been reset to default.');</script>";
+            header("Location: settings.php");
+            exit();
+        } else {
+            echo "<script>alert('Failed to reset profile picture. Please try again.');</script>";
+        }
+    }
+
     if (isset($_POST['full_name']) && isset($_POST['username'])) {
         $full_name = trim($_POST['full_name']);
         $username = trim($_POST['username']);
@@ -83,6 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form method="POST" enctype="multipart/form-data">
                 <input type="file" name="profile_image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer">
                 <button type="submit" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">Upload</button>
+                <button type="submit" name="delete_profile_picture" class="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+            Delete Profile Picture
+        </button>
             </form>
         </div>
         <form method="POST" id="settingsForm" class="mt-6 space-y-4">
