@@ -1,0 +1,36 @@
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.custom-file-upload:hover {
+    background-color: #b31dd8;
+}
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+ul.flex.border-b li a {
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 5px 5px 0 0;
+}
+
+ul.flex.border-b li a:hover {
+    color: #b31dd8; /* Tailwind blue-700 */
+    background-color: #f1f5f9; /* Tailwind gray-100 */
+}
+
+ul.flex.border-b li a.active {
+    color: #b31dd8; /* Tailwind blue-700 */
+    background-color: #ffffff; /* Tailwind white */
+    border-bottom: 2px solid #b31dd8; /* Tailwind blue-700 */
+}
