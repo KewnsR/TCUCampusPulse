@@ -57,16 +57,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit();
             }
         }
-        if ($action === "register") {
+    } elseif ($action === "register") {
         // REGISTRATION PROCESS
-        $full_name = trim($_POST['full_name']);
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
+        $mid_name = trim($_POST['mid_name']);
         $username = trim($_POST['username']);
         $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'];
         $role = trim($_POST['role']);
         $student_number = isset($_POST['student_number']) ? trim($_POST['student_number']) : null;
 
-        if (empty($full_name) || empty($username) || empty($email) || empty($password) || empty($role)) {
+        if (empty($first_name) || empty($last_name) || empty($username) || empty($email) || empty($password) || empty($role)) {
             echo "<script>alert('All fields are required!'); window.location='/TCUCampusPulse/php/login.php';</script>";
             exit();
         }
@@ -95,8 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
         // Insert into users table
-        $stmt = $conn->prepare("INSERT INTO users (full_name, username, email, password, role, student_number, is_verified) VALUES (?, ?, ?, ?, ?, ?, 0)");
-        $stmt->bind_param("ssssss", $full_name, $username, $email, $hashed_password, $role, $student_number);
+        $stmt = $conn->prepare("INSERT INTO users (first_name, mid_name, last_name, username, email, password, role, student_number, is_verified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)");
+        $stmt->bind_param("ssssssss", $first_name, $mid_name, $last_name, $username, $email, $hashed_password, $role, $student_number);
 
         if ($stmt->execute()) {
             echo "<script>alert('Registration successful! Verify your email before logging in.'); window.location='/TCUCampusPulse/php/login.php';</script>";
@@ -107,7 +109,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->close();
         $conn->close();
     }
-}
 }
 ?>
 
@@ -150,7 +151,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <!-- REGISTER FORM -->
         <form id="registerForm" class="form-container hidden" method="POST">
             <input type="hidden" name="action" value="register">
-            <input type="text" name="full_name" placeholder="Full name">
+            <input type="text" name="first_name" placeholder="First name">
+            <input type="text" name="last_name" placeholder="Last name">
+            <input type="text" name="mid_name" placeholder="Middle name">
             <input type="text" name="username" placeholder="Username">
             <input type="email" name="email" placeholder="Email address">
             <input type="password" name="password" placeholder="Password">

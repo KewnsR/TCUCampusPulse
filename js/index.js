@@ -1,13 +1,40 @@
+// Toggle Profile Dropdown
+function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    dropdown.classList.toggle('hidden');
+}
+
+// Show and Hide Post Modal
+function showPostModal() {
+    const postModal = document.getElementById('postModal');
+    postModal.classList.remove('hidden');
+}
+
+function hidePostModal() {
+    const postModal = document.getElementById('postModal');
+    postModal.classList.add('hidden');
+}
+
+// Show and Hide Messages Popup
+function showMessagesPopup() {
+    const messagesPopup = document.getElementById('messagesPopup');
+    messagesPopup.classList.remove('hidden');
+}
+
+function hideMessagesPopup() {
+    const messagesPopup = document.getElementById('messagesPopup');
+    messagesPopup.classList.add('hidden');
+}
+
+// Show and Hide Logout Modal
 function showLogoutModal() {
-    document.getElementById('logoutModal').classList.remove('hidden');
+    const logoutModal = document.getElementById('logoutModal');
+    logoutModal.classList.remove('hidden');
 }
 
 function hideLogoutModal() {
-    document.getElementById('logoutModal').classList.add('hidden');
-}
-
-function toggleProfileDropdown() {
-    document.getElementById('profileDropdown').classList.toggle('hidden');
+    const logoutModal = document.getElementById('logoutModal');
+    logoutModal.classList.add('hidden');
 }
 
 // Prevent back navigation after login
@@ -62,12 +89,43 @@ document.addEventListener("DOMContentLoaded", () => {
             // Add your sorting logic here (e.g., fetch sorted data via AJAX)
         });
     }
+
+    // Profile Dropdown Toggle
+    const profileButton = document.getElementById("profileButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+
+    if (profileButton && profileDropdown) {
+        profileButton.addEventListener("click", () => {
+            profileDropdown.classList.toggle("hidden");
+        });
+
+        // Close profile dropdown when clicking outside of it
+        document.addEventListener("click", (e) => {
+            if (!profileDropdown.contains(e.target) && e.target !== profileButton) {
+                profileDropdown.classList.add("hidden");
+            }
+        });
+    }
+
+    // "What's on your mind" Post Modal
+    const openPostModalButton = document.getElementById("openPostModal");
+    const closePostModalButton = document.getElementById("closePostModal");
+    const postModal = document.getElementById("postModal");
+
+    if (openPostModalButton && closePostModalButton && postModal) {
+        openPostModalButton.addEventListener("click", () => {
+            postModal.classList.remove("hidden");
+        });
+
+        closePostModalButton.addEventListener("click", () => {
+            postModal.classList.add("hidden");
+        });
+
+        // Close post modal when clicking outside of it
+        document.addEventListener("click", (e) => {
+            if (!postModal.contains(e.target) && e.target !== openPostModalButton) {
+                postModal.classList.add("hidden");
+            }
+        });
+    }
 });
-
-function showPostModal() {
-    document.getElementById('postModal').classList.remove('hidden');
-}
-
-function hidePostModal() {
-    document.getElementById('postModal').classList.add('hidden');
-}

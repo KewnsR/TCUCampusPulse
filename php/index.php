@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submitPost'])) {
         <!-- Conditional Buttons -->
         <div class="relative flex items-center space-x-4">
         <?php if(isset($_SESSION['user'])): ?>
-                <button id="openMessages" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Messages</button>
+                <button id="openMessages" onclick="showMessagesPopup()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Messages</button>
                 <button onclick="window.location.href='events.php'" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Events</button>
 
                 <!-- Notification Button -->
@@ -174,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submitPost'])) {
                     </div>
                 </div>
             </div>
-            <button id="closeMessages" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 mt-4">Close</button>
+            <button id="closeMessages" onclick="hideMessagesPopup()" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 mt-4">Close</button>
         </div>
     </div>
 
